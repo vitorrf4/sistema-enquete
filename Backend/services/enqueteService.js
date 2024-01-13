@@ -41,21 +41,28 @@ class UserService {
   }
 
   async checkEnqueteStatus() {
-    console.log("testing");
+    let minutoAnterior = new Date(Date.now()).getMinutes();
     setInterval(async () => {
-      const enquetes = await Enquete.findAll();
+      const minutoAtual = new Date(Date.now()).getMinutes();
 
-      for (let enquete of enquetes) {
-        const dataInicio = enquete.get("dataInicio");
-        const dataFim = enquete.get("dataFim");
+      if (minutoAtual > minutoAnterior) {
+        console.log("minute changed");
+        minutoAnterior = minutoAtual;
+        const enquetes = await Enquete.findAll();
 
-        const status = Enquete.calcularStatus(dataInicio, dataFim);
+        for (let enquete of enquetes) {
+          const dataInicio = enquete.get("dataInicio");
+          const dataFim = enquete.get("dataFim");
 
-        if (status !== enquete.get("status")) {
-          console.log(`updating status of ${enquete.get("id")}`);
-          enquete.set("status", status);
+          const status = Enquete.calcularStatus(dataInicio, dataFim);
+
+          if (status !== enquete.get("status")) {
+            console.log(`updating status of ${enquete.get("id")}`);
+            enquete.set("status", status);
+          }
         }
       }
+
     }, 1000);
   }
 }
