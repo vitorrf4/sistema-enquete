@@ -57,8 +57,8 @@ class UserService {
           const status = Enquete.calcularStatus(dataInicio, dataFim);
 
           if (status !== enquete.get("status")) {
-            console.log(`updating status of ${enquete.get("id")}`);
             enquete.set("status", status);
+            await enquete.save();
           }
         }
       }
