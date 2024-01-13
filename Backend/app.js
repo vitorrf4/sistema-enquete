@@ -3,11 +3,13 @@ const express = require('express');
 const app = express();
 const enquetesRouter = require("./routers/enqueteRouter");
 const enqueteService = require("./services/enqueteService");
+const cors = require('cors');
 require("dotenv").config();
 
 // configs
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
 // start 
 const PORT = process.env.PORT || 3000;
