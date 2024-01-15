@@ -1,0 +1,21 @@
+#flex-container {
+    display: inline-flex;
+    flex-wrap: wrap;
+}
+.enquetes-div {
+    border: solid 2px rgba(147, 147, 147, 0.87);
+    margin: 5px;
+    padding: 5px;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
