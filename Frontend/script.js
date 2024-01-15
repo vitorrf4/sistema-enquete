@@ -6,17 +6,17 @@ source.addEventListener('open', () => {
 });
 source.addEventListener('voto', (event) => {
     const opcao = JSON.parse(event.data);
-    updateVotoOnElement(opcao);
+    updateVotoElement(opcao);
 });
 source.addEventListener('status', (event) => {
     const enquete = JSON.parse(event.data);
     updateStatusElement(enquete);
 });
+source.addEventListener('enquete', (event) => {
+    const enquete = JSON.parse(event.data);
+    createEnqueteElement(enquete);
+});
 
-function updateStatusElement(enquete) {
-    const enqueteElement = document.getElementById(`status_enquete_${enquete.id}`);
-    enqueteElement.innerHTML = `Status: ${enquete.status}`;
-}
 
 // Functions
 async function loadEnquetes() {
@@ -68,9 +68,14 @@ function createEnqueteElement(enquete) {
     container.appendChild(div);
 }
 
-function updateVotoOnElement(opcao) {
+function updateVotoElement(opcao) {
     const opcaoElement = document.getElementById(`votos_opcao_${opcao.id}`);
     opcaoElement.innerHTML = `${opcao.votos} votos`;
+}
+
+function updateStatusElement(enquete) {
+    const enqueteElement = document.getElementById(`status_enquete_${enquete.id}`);
+    enqueteElement.innerHTML = `Status: ${enquete.status}`;
 }
 
 async function addVoto(formId) {
@@ -123,6 +128,7 @@ function getOpcoesOnForm() {
             opcoes.push({titulo: opcao.value});
         }
     }
+    opcoes.reverse();
 
     return opcoes;
 }

@@ -16,6 +16,10 @@ class SseService {
         this.channel.broadcast(enquete, 'status');
     }
 
+    emitNovaEnquete(enquete) {
+        this.channel.broadcast(enquete, 'enquete');
+    }
+
 }
 
 module.exports = new SseService();

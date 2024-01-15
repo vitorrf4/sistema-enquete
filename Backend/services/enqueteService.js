@@ -7,7 +7,7 @@ class EnqueteService {
   }
 
   async getEnqueteById(id) {
-    return await Enquete.findByPk(id, { include: "opcoes"});
+    return await Enquete.findByPk(id, {include: "opcoes"});
   }
 
   async createEnquete(titulo, dataInicio, dataFim, opcoes) {
@@ -24,8 +24,11 @@ class EnqueteService {
 
     const status = Enquete.calcularStatus(dataInicio, dataFim);
 
-    return await Enquete.create({titulo, dataInicio, dataFim, status, opcoes},
+    const enquete = await Enquete.create({titulo, dataInicio, dataFim, status, opcoes},
         {include: ["opcoes"]});
+    sseService.emitNovaEnquete(enquete);
+
+    return enquete;
   }
 
   async updateEnquete(enquete) {
