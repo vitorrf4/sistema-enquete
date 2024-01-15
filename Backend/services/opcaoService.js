@@ -1,4 +1,5 @@
 const Opcao = require('../models/opcao');
+const sseService = require('./sseService');
 
 class OpcaoService {
     async addVoto(id) {
@@ -10,6 +11,7 @@ class OpcaoService {
 
         opcao.votos++;
         await opcao.save();
+        await sseService.emitVoto(opcao);
 
         return true;
     }

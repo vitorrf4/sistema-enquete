@@ -4,8 +4,9 @@ const source = new EventSource('http://localhost:3000/connect');
 source.addEventListener('open', () => {
     console.log("Connection opened");
 });
-source.addEventListener('message', (event) => {
-    console.log(event.data);
+source.addEventListener('voto', (event) => {
+    const opcao = JSON.parse(event.data);
+    updateVotoOnElement(opcao);
 });
 
 // Functions
@@ -14,11 +15,11 @@ async function loadEnquetes() {
         .then(async r => await r.json());
 
     for (let enquete of enquetes) {
-        createEnqueteHTML(enquete);
+        createEnqueteElement(enquete);
     }
 }
 
-function createEnqueteHTML(enquete) {
+function createEnqueteElement(enquete) {
     const container = document.getElementById("enquetes_list_container");
     const div = document.createElement('div');
 
@@ -29,8 +30,8 @@ function createEnqueteHTML(enquete) {
     for (let opcao of enquete.opcoes) {
         table.insertAdjacentHTML('afterbegin', `
             <tr>
-                 <td><label for="opcao1">${opcao.titulo}</label></td>
-                 <td>${opcao.votos} votos</td> 
+                 <td><label for="opcao_${opcao.id}">${opcao.titulo}</label></td>
+                 <td id="votos_opcao_${opcao.id}">${opcao.votos} votos</td> 
                  <td><input type="radio" name="opcao" id="opcao_${opcao.id}"></td>
             </tr>
         `);
@@ -58,6 +59,11 @@ function createEnqueteHTML(enquete) {
     container.appendChild(div);
 }
 
+function updateVotoOnElement(opcao) {
+    const opcaoElement = document.getElementById(`votos_opcao_${opcao.id}`);
+    opcaoElement.innerHTML = `${opcao.votos} votos`;
+}
+
 async function addVoto(formId) {
     const enquete = document.getElementById(formId);
 
@@ -78,7 +84,7 @@ async function saveEnquete() {
     const titulo = document.getElementById("titulo").value;
     const dataInicio = document.getElementById("dataInicio").value;
     const dataFim = document.getElementById("dataFim").value;
-    const opcoes = getOpcoesFromHTML();
+    const opcoes = getOpcoesOnForm();
 
     const enquete = JSON.stringify({
         titulo: titulo,
@@ -99,7 +105,7 @@ async function saveEnquete() {
     console.log(json);
 }
 
-function getOpcoesFromHTML() {
+function getOpcoesOnForm() {
     const opcoesClass = document.getElementsByClassName('opcoes_form');
     const opcoes = [];
 
