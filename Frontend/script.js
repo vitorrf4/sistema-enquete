@@ -1,3 +1,14 @@
+const source = new EventSource('http://localhost:3000/connect');
+
+// SSE
+source.addEventListener('open', () => {
+    console.log("Connection opened");
+});
+source.addEventListener('message', (event) => {
+    console.log(event.data);
+});
+
+// Functions
 async function loadEnquetes() {
     const enquetes = await fetch('http://localhost:3000/enquetes')
         .then(async r => await r.json());
