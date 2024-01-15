@@ -9,14 +9,22 @@ class UserService {
     return await Enquete.findByPk(id, { include: "opcoes"});
   }
 
-  async createEnquete(titulo, dataInicio, dataFim) {
-    // if (dataFim < dataInicio) {
-    //   return null;
-    // }
+  async createEnquete(titulo, dataInicio, dataFim, opcoes) {
+    const dateInicio = new Date(dataInicio).getTime();
+    const dateFim = new Date(dataFim).getTime();
+
+    if (dateFim <= dateInicio) {
+      return null;
+    }
+
+    if (opcoes.length < 3 || opcoes.length > 5) {
+      return null;
+    }
 
     const status = Enquete.calcularStatus(dataInicio, dataFim);
 
-    return await Enquete.create({titulo, dataInicio, dataFim, status});
+    return await Enquete.create({titulo, dataInicio, dataFim, status, opcoes},
+        {include: ["opcoes"]});
   }
 
   async updateEnquete(produto) {
@@ -46,7 +54,6 @@ class UserService {
       const minutoAtual = new Date(Date.now()).getMinutes();
 
       if (minutoAtual > minutoAnterior) {
-        console.log("minute changed");
         minutoAnterior = minutoAtual;
         const enquetes = await Enquete.findAll();
 

@@ -31,11 +31,6 @@ app.all("*", (req, res, next) => {
 });
 
 // routes
-function test() {
-  console.log("testing");
-  setInterval(() => console.log("teste"), 1000);
-}
-
 app.use(enquetesRouter);
 app.all("*", (req, res) => {
   res.status(404).json({"error": `${req.method} ${req.url} não é um endpoint válido`})

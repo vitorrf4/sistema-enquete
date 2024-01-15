@@ -31,9 +31,9 @@ class EnqueteController {
 
   async createEnquete(req, res) {
     try {
-      const { titulo, dataInicio, dataFim } = req.body;
+      const { titulo, dataInicio, dataFim, opcoes } = req.body;
 
-      const novaEnquete = await produtoService.createEnquete(titulo, dataInicio, dataFim);
+      const novaEnquete = await produtoService.createEnquete(titulo, dataInicio, dataFim, opcoes);
 
       if (!novaEnquete) {
         return res.status(400).json({ error: "Enquete inválida"});
