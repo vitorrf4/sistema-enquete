@@ -11,7 +11,7 @@ class OpcaoService {
 
         opcao.votos++;
         await opcao.save();
-        await sseService.emitVoto(opcao);
+        sseService.emitVoto(opcao);
 
         return true;
     }

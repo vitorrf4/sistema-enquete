@@ -8,9 +8,14 @@ class SseService {
         this.channel.register(session);
     }
 
-    async emitVoto(opcao) {
+    emitVoto(opcao) {
         this.channel.broadcast(opcao, 'voto');
     }
+
+    emitStatus(enquete) {
+        this.channel.broadcast(enquete, 'status');
+    }
+
 }
 
 module.exports = new SseService();

@@ -8,6 +8,15 @@ source.addEventListener('voto', (event) => {
     const opcao = JSON.parse(event.data);
     updateVotoOnElement(opcao);
 });
+source.addEventListener('status', (event) => {
+    const enquete = JSON.parse(event.data);
+    updateStatusElement(enquete);
+});
+
+function updateStatusElement(enquete) {
+    const enqueteElement = document.getElementById(`status_enquete_${enquete.id}`);
+    enqueteElement.innerHTML = `Status: ${enquete.status}`;
+}
 
 // Functions
 async function loadEnquetes() {
@@ -42,7 +51,7 @@ function createEnqueteElement(enquete) {
     form.insertAdjacentHTML('beforeend', `
             <p>Inicio: ${enquete.dataInicio}</p>
             <p>Fim: ${enquete.dataFim}</p>
-            <p>Status: ${enquete.status}</p>
+            <p id="status_enquete_${enquete.id}">Status: ${enquete.status}</p>
     `);
 
     const button = document.createElement('button');

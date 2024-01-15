@@ -1,4 +1,5 @@
 const Enquete = require('../models/enquete');
+const sseService = require('./sseService');
 
 class EnqueteService {
   async getEnquetes() {
@@ -67,6 +68,7 @@ class EnqueteService {
           if (status !== enquete.get("status")) {
             enquete.set("status", status);
             await enquete.save();
+            sseService.emitStatus(enquete);
           }
         }
       }
