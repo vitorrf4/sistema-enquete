@@ -17,7 +17,6 @@ source.addEventListener('enquete', (event) => {
     createEnqueteElement(enquete);
 });
 
-
 // Functions
 async function loadEnquetes() {
     const enquetes = await fetch('http://localhost:3000/enquetes')
@@ -36,14 +35,23 @@ function createEnqueteElement(enquete) {
     form.id = `enquete_${enquete.id}`;
 
     const table = document.createElement('table');
+
+    const estaEmAndamento = enquete.status === "EM_ANDAMENTO";
     for (let opcao of enquete.opcoes) {
-        table.insertAdjacentHTML('afterbegin', `
-            <tr>
-                 <td><label for="opcao_${opcao.id}">${opcao.titulo}</label></td>
-                 <td id="votos_opcao_${opcao.id}">${opcao.votos} votos</td> 
-                 <td><input type="radio" name="opcao" id="opcao_${opcao.id}"></td>
-            </tr>
+        const tr = document.createElement('tr');
+        tr.insertAdjacentHTML('afterbegin', `
+             <td><label for="opcao_${opcao.id}">${opcao.titulo}</label></td>
+             <td id="votos_opcao_${opcao.id}">${opcao.votos} votos</td> 
         `);
+
+        let input = `<td><input type="radio" name="opcao" id="opcao_${opcao.id}"`;
+        if (!estaEmAndamento) {
+            input += `disabled`;
+        }
+        input += `></td>`
+
+        tr.insertAdjacentHTML('beforeend', input);
+        table.append(tr);
     }
     form.append(table);
 
@@ -56,6 +64,11 @@ function createEnqueteElement(enquete) {
 
     const button = document.createElement('button');
     button.innerHTML = 'Votar';
+    button.id = `votar_enquete_${enquete.id}`;
+
+    if (!estaEmAndamento) {
+        button.disabled = true;
+    }
     button.onclick = async (Event) => {
         Event.preventDefault();
         await addVoto(form.id);
@@ -76,6 +89,9 @@ function updateVotoElement(opcao) {
 function updateStatusElement(enquete) {
     const enqueteElement = document.getElementById(`status_enquete_${enquete.id}`);
     enqueteElement.innerHTML = `Status: ${enquete.status}`;
+
+    const botaoVotar = document.getElementById(`votar_enquete_${enquete.id}`);
+    botaoVotar.disabled = false;
 }
 
 async function addVoto(formId) {
@@ -98,7 +114,7 @@ async function saveEnquete() {
     const titulo = document.getElementById("titulo").value;
     const dataInicio = document.getElementById("dataInicio").value;
     const dataFim = document.getElementById("dataFim").value;
-    const opcoes = getOpcoesOnForm();
+    const opcoes = getOpcoesFromForm();
 
     const enquete = JSON.stringify({
         titulo: titulo,
@@ -119,7 +135,7 @@ async function saveEnquete() {
     console.log(json);
 }
 
-function getOpcoesOnForm() {
+function getOpcoesFromForm() {
     const opcoesClass = document.getElementsByClassName('opcoes_form');
     const opcoes = [];
 
