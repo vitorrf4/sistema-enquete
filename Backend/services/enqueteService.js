@@ -1,6 +1,6 @@
 const Enquete = require('../models/enquete');
 
-class UserService {
+class EnqueteService {
   async getEnquetes() {
     return await Enquete.findAll({include: "opcoes"});
   }
@@ -27,16 +27,16 @@ class UserService {
         {include: ["opcoes"]});
   }
 
-  async updateEnquete(produto) {
-    const produtoDb = await this.getEnqueteById(produto.id);
+  async updateEnquete(enquete) {
+    const enqueteDb = await this.getEnqueteById(enquete.id);
 
-    if (!produtoDb) {
+    if (!enqueteDb) {
       return false;
     }
 
     await Enquete.update(
-        produto,
-        { where: { id: produto.id } }
+        enqueteDb,
+        { where: { id: enquete.id } }
     );
 
     return true;
@@ -74,4 +74,4 @@ class UserService {
   }
 }
 
-module.exports = new UserService();
+module.exports = new EnqueteService();

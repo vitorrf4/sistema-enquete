@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const enquetesRouter = require("./routers/enqueteRouter");
 const enqueteService = require("./services/enqueteService");
+const opcaoRouter = require("./routers/opcaoRouter");
 const cors = require('cors');
 require("dotenv").config();
 
@@ -32,6 +33,7 @@ app.all("*", (req, res, next) => {
 
 // routes
 app.use(enquetesRouter);
+app.use(opcaoRouter);
 app.all("*", (req, res) => {
   res.status(404).json({"error": `${req.method} ${req.url} não é um endpoint válido`})
 });
