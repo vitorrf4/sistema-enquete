@@ -1,4 +1,4 @@
-#flex-container {
+#enquetes_list_container {
     display: inline-flex;
     flex-wrap: wrap;
 }
@@ -7,15 +7,14 @@
     margin: 5px;
     padding: 5px;
 }
-ul {
-    list-style-type: none;
-    padding: 0;
+#enquete-form {
+    display: inline-block;
+    border: solid 2px red;
 }
-li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
+#opcoes_div {
+    display: inline-block;
+    border: solid 2px red;
+}
+.block {
+    display: block;
 }

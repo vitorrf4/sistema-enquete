@@ -8,7 +8,7 @@ async function loadEnquetes() {
 }
 
 function createEnqueteHTML(enquete) {
-    const container = document.getElementById("flex-container");
+    const container = document.getElementById("enquetes_list_container");
     const div = document.createElement('div');
 
     const form = document.createElement('form');
@@ -67,13 +67,13 @@ async function saveEnquete() {
     const titulo = document.getElementById("titulo").value;
     const dataInicio = document.getElementById("dataInicio").value;
     const dataFim = document.getElementById("dataFim").value;
-    const opcao = document.getElementById("opcoes").value;
+    const opcoes = getOpcoesFromHTML();
 
     const enquete = JSON.stringify({
         titulo: titulo,
         dataInicio: dataInicio,
         dataFim: dataFim,
-        opcoes: [{titulo: opcao}]
+        opcoes: opcoes
     });
 
     const res = await fetch("http://localhost:3000/enquetes", {
@@ -86,4 +86,17 @@ async function saveEnquete() {
     const json = await res.json();
 
     console.log(json);
+}
+
+function getOpcoesFromHTML() {
+    const opcoesClass = document.getElementsByClassName('opcoes_form');
+    const opcoes = [];
+
+    for (let opcao of opcoesClass) {
+        if (opcao.value) {
+            opcoes.push({titulo: opcao.value});
+        }
+    }
+
+    return opcoes;
 }

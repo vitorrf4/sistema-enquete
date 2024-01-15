@@ -17,7 +17,7 @@ class EnqueteService {
       return null;
     }
 
-    if (opcoes.length < 3 || opcoes.length > 5) {
+    if (!opcoes || opcoes.length < 3 || opcoes.length > 5) {
       return null;
     }
 
@@ -50,6 +50,7 @@ class EnqueteService {
 
   async checkEnqueteStatus() {
     let minutoAnterior = new Date(Date.now()).getMinutes();
+
     setInterval(async () => {
       const minutoAtual = new Date(Date.now()).getMinutes();
 
