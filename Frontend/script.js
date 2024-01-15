@@ -10,10 +10,11 @@ async function loadEnquetes() {
 function createEnqueteHTML(enquete) {
     const container = document.getElementById("flex-container");
     const div = document.createElement('div');
+
+    const form = document.createElement('form');
+    form.id = `enquete_${enquete.id}`;
+
     const table = document.createElement('table');
-
-    div.insertAdjacentHTML('afterbegin', `<p>${enquete.titulo}</p>`);
-
     for (let opcao of enquete.opcoes) {
         table.insertAdjacentHTML('afterbegin', `
             <tr>
@@ -23,18 +24,43 @@ function createEnqueteHTML(enquete) {
             </tr>
         `);
     }
-    div.append(table);
+    form.append(table);
 
-    div.insertAdjacentHTML('beforeend', `
+    form.insertAdjacentHTML('afterbegin', `<p>${enquete.titulo}</p>`);
+    form.insertAdjacentHTML('beforeend', `
             <p>Inicio: ${enquete.dataInicio}</p>
             <p>Fim: ${enquete.dataFim}</p>
             <p>Status: ${enquete.status}</p>
-
-            <button>Votar</button>
     `);
+
+    const button = document.createElement('button');
+    button.innerHTML = 'Votar';
+    button.onclick = async (Event) => {
+        Event.preventDefault();
+        await addVoto(form.id);
+    };
+    form.append(button);
+
+    div.append(form);
     div.classList.add('enquetes-div');
 
     container.appendChild(div);
+}
+
+async function addVoto(formId) {
+    const enquete = document.getElementById(formId);
+
+    let opcaoId;
+    for (let opcao of enquete) {
+        if (opcao.checked) {
+            opcaoId = opcao.id.substring(6, opcao.id.length);
+            break;
+        }
+    }
+
+    await fetch(`http://localhost:3000/opcoes/${opcaoId}`, {
+        method: "POST"
+    });
 }
 
 async function saveEnquete() {
@@ -49,8 +75,6 @@ async function saveEnquete() {
         dataFim: dataFim,
         opcoes: [{titulo: opcao}]
     });
-
-    console.log(enquete);
 
     const res = await fetch("http://localhost:3000/enquetes", {
         method: "POST",
