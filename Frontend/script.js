@@ -31,6 +31,25 @@ function createEnqueteElement(enquete) {
     const container = document.getElementById("enquetes_list_container");
     const div = document.createElement('div');
 
+    const form = createFormTable(enquete);
+
+    form.insertAdjacentHTML('afterbegin', `<p>${enquete.titulo}</p>`);
+    form.insertAdjacentHTML('beforeend', `
+            <p>Inicio: ${enquete.dataInicio}</p>
+            <p>Fim: ${enquete.dataFim}</p>
+            <p id="status_enquete_${enquete.id}">Status: ${enquete.status}</p>
+    `);
+
+    const button = createButtons(enquete);
+    form.append(button);
+
+    div.append(form);
+    div.classList.add('enquetes-div');
+
+    container.appendChild(div);
+}
+
+function createFormTable(enquete) {
     const form = document.createElement('form');
     form.id = `enquete_${enquete.id}`;
 
@@ -55,30 +74,23 @@ function createEnqueteElement(enquete) {
     }
     form.append(table);
 
-    form.insertAdjacentHTML('afterbegin', `<p>${enquete.titulo}</p>`);
-    form.insertAdjacentHTML('beforeend', `
-            <p>Inicio: ${enquete.dataInicio}</p>
-            <p>Fim: ${enquete.dataFim}</p>
-            <p id="status_enquete_${enquete.id}">Status: ${enquete.status}</p>
-    `);
+    return form;
+}
 
+function createButtons(enquete) {
     const button = document.createElement('button');
     button.innerHTML = 'Votar';
     button.id = `votar_enquete_${enquete.id}`;
 
-    if (!estaEmAndamento) {
+    if (enquete.status !== "EM_ANDAMENTO") {
         button.disabled = true;
     }
     button.onclick = async (Event) => {
         Event.preventDefault();
-        await addVoto(form.id);
+        await addVoto(`enquete_${enquete.id}`);
     };
-    form.append(button);
 
-    div.append(form);
-    div.classList.add('enquetes-div');
-
-    container.appendChild(div);
+    return button;
 }
 
 function updateVotoElement(opcao) {
