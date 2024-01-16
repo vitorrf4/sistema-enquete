@@ -119,6 +119,14 @@ async function addVoto(formId) {
 
     await fetch(`http://localhost:3000/opcoes/${opcaoId}`, {
         method: "POST"
+    }).then(() => {
+        const button = document.getElementById(`votar_${formId}`);
+        button.disabled = true;
+        button.insertAdjacentHTML('afterend', ' Voto enviado!');
+
+        for (let opcao of enquete) {
+            opcao.disabled = true;
+        }
     });
 }
 
