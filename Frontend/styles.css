@@ -4,8 +4,10 @@
 }
 .enquetes-div {
     border: solid 2px rgba(147, 147, 147, 0.87);
+    border-radius: 10px;
+    background-color: #abaaa3;
     margin: 5px;
-    padding: 5px;
+    padding: 10px;
 }
 #enquete-form {
     display: inline-block;
@@ -17,4 +19,13 @@
 }
 .block {
     display: block;
+}
+.finalizada {
+    border: solid 2px red;
+}
+.em_andamento {
+    border: solid 2px green;
+}
+.nao_iniciada {
+    border: solid 2px blue;
 }

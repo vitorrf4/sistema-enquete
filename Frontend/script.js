@@ -44,7 +44,7 @@ function createEnqueteElement(enquete) {
     form.append(button);
 
     div.append(form);
-    div.classList.add('enquetes-div');
+    div.classList.add('enquetes-div', enquete.status.toLowerCase());
 
     container.appendChild(div);
 }
