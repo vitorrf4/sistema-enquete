@@ -30,6 +30,7 @@ async function loadEnquetes() {
 function createEnqueteElement(enquete) {
     const container = document.getElementById("enquetes_list_container");
     const div = document.createElement('div');
+    div.id = `div_enquete_${enquete.id}`;
 
     const form = createFormTable(enquete);
     const formattedStatus = getFormattedStatus(enquete.status);
@@ -110,10 +111,20 @@ function updateVotoElement(opcao) {
 
 function updateStatusElement(enquete) {
     const enqueteElement = document.getElementById(`status_enquete_${enquete.id}`);
-    enqueteElement.innerHTML = `Status: ${enquete.status}`;
+    const formattedStatus = getFormattedStatus(enquete.status);
+    enqueteElement.innerHTML = `Status: ${formattedStatus}`;
+
+    const div = document.getElementById(`div_enquete_${enquete.id}`);
+    div.classList = [];
+    div.classList.add('enquetes-div', enquete.status.toLowerCase());
 
     const botaoVotar = document.getElementById(`votar_enquete_${enquete.id}`);
     botaoVotar.disabled = false;
+
+    const form = document.getElementById(`enquete_${enquete.id}`);
+    for (let opcao of form) {
+        opcao.disabled = true;
+    }
 }
 
 async function addVoto(formId) {
