@@ -1,6 +1,12 @@
+body {
+    font-family: "Calibri", serif;
+    font-size: 20px;
+}
 #enquetes_list_container {
     display: inline-flex;
     flex-wrap: wrap;
+    margin-left: 3%;
+    margin-right: 3%;
 }
 .enquetes-div {
     border: solid 2px rgba(147, 147, 147, 0.87);
@@ -9,13 +15,15 @@
     margin: 5px;
     padding: 10px;
 }
+#form_div {
+    display: flex;
+    border: solid 2px red;
+}
 #enquete-form {
     display: inline-block;
-    border: solid 2px red;
 }
 #opcoes_div {
     display: inline-block;
-    border: solid 2px red;
 }
 .block {
     display: block;
@@ -28,4 +36,7 @@
 }
 .nao_iniciada {
     border: solid 2px blue;
+}
+.bold {
+    font-weight: bold;
 }

@@ -32,12 +32,13 @@ function createEnqueteElement(enquete) {
     const div = document.createElement('div');
 
     const form = createFormTable(enquete);
+    const formattedStatus = getFormattedStatus(enquete.status);
 
-    form.insertAdjacentHTML('afterbegin', `<p>${enquete.titulo}</p>`);
+    form.insertAdjacentHTML('afterbegin', `<p class="bold">${enquete.titulo}</p>`);
     form.insertAdjacentHTML('beforeend', `
             <p>Inicio: ${enquete.dataInicio}</p>
             <p>Fim: ${enquete.dataFim}</p>
-            <p id="status_enquete_${enquete.id}">Status: ${enquete.status}</p>
+            <p id="status_enquete_${enquete.id}">Status: ${formattedStatus}</p>
     `);
 
     const button = createButtons(enquete);
@@ -47,6 +48,15 @@ function createEnqueteElement(enquete) {
     div.classList.add('enquetes-div', enquete.status.toLowerCase());
 
     container.appendChild(div);
+}
+
+function getFormattedStatus(status) {
+    switch (status) {
+        case "NAO_INICIADA": return "Não Iniciada";
+        case "EM_ANDAMENTO": return "Em Andamento";
+        case "FINALIZADA": return "Encerrada";
+        default: return "";
+    }
 }
 
 function createFormTable(enquete) {
