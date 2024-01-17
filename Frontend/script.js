@@ -78,15 +78,18 @@ function createFormTable(enquete) {
 
     const table = document.createElement('table');
 
-    const estaEmAndamento = enquete.status === "EM_ANDAMENTO";
     for (let opcao of enquete.opcoes) {
+        const votoOuVotos = (opcao.votos === 1) ? 'voto' : "votos";
+
         const tr = document.createElement('tr');
         tr.insertAdjacentHTML('afterbegin', `
              <td><label for="opcao_${opcao.id}">${opcao.titulo}</label></td>
-             <td id="votos_opcao_${opcao.id}">${opcao.votos} votos</td> 
+             <td id="votos_opcao_${opcao.id}">${opcao.votos} ${votoOuVotos}</td> 
         `);
 
         let input = `<td><input type="radio" name="opcao" id="opcao_${opcao.id}"`;
+
+        const estaEmAndamento = enquete.status === "EM_ANDAMENTO";
         if (!estaEmAndamento) {
             input += `disabled`;
         }
@@ -118,7 +121,9 @@ function createButtons(enquete) {
 
 function updateVotoElement(opcao) {
     const opcaoElement = document.getElementById(`votos_opcao_${opcao.id}`);
-    opcaoElement.innerHTML = `${opcao.votos} votos`;
+
+    const votoOuVotos = (opcao.votos === 1) ? 'voto' : "votos";
+    opcaoElement.innerHTML = `${opcao.votos} ${votoOuVotos}`;
 }
 
 function updateStatusElement(enquete) {

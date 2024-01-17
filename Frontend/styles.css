@@ -73,3 +73,14 @@ h3 {
 .small_p {
     font-size: 15px;
 }
+table {
+    display: flex;
+    flex-direction: column;
+}
+table tr {
+    display: flex;
+}
+table tr td:nth-child(2) {
+    display: flex;
+    margin-left: auto;
+}
