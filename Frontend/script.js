@@ -157,6 +157,10 @@ async function saveEnquete() {
     const dataFim = document.getElementById("dataFim").value;
     const opcoes = getOpcoesFromForm();
 
+    if (isFormInvalid(titulo, dataInicio, dataFim, opcoes)) {
+        return alert("Enquete inválida, preencha todos os campos com um mínimo 3 opções");
+    }
+
     const enquete = JSON.stringify({
         titulo: titulo,
         dataInicio: dataInicio,
@@ -164,19 +168,13 @@ async function saveEnquete() {
         opcoes: opcoes
     });
 
-    if (!isFormValid(enquete)) {
-        alert("Enquete válida, preencha todos os campos com um mínimo 3 opções");
-        return;
-    }
-
-    const res = await fetch("http://localhost:3000/enquetes", {
+    await fetch("http://localhost:3000/enquetes", {
         method: "POST",
         body: enquete,
         headers: {
             "Content-Type": "application/json"
         },
-    });
-    await res.json();
+    }).then(() => alert("Enquete criada com sucesso!"));
 }
 
 function getOpcoesFromForm() {
@@ -193,7 +191,7 @@ function getOpcoesFromForm() {
     return opcoes;
 }
 
-function isFormValid(enquete) {
-    return enquete.titulo || enquete.dataInicio || enquete.dataFim || enquete.opcoes
-            || enquete.dataFim > enquete.dataInicio || enquete.opcoes >= 3
+function isFormInvalid(titulo, dataInicio, dataFim, opcoes) {
+    return !titulo || !dataInicio || !dataFim || !opcoes ||
+        dataFim <= dataInicio || opcoes.length < 3
 }
