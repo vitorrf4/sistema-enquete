@@ -15,6 +15,8 @@ h3 {
     display: inline-flex;
     flex-wrap: wrap;
     justify-content: center;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 .enquetes-div {
     border: solid 2px rgba(147, 147, 147, 0.87);

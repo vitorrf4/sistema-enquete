@@ -180,8 +180,8 @@ async function saveEnquete() {
     const dataFim = document.getElementById("dataFim").value;
     const opcoes = getOpcoesFromForm();
 
-    if (isFormInvalid(titulo, dataInicio, dataFim, opcoes)) {
-        return alert("Enquete inválida, preencha todos os campos com um mínimo 3 opções");
+    if (!validateForm(titulo, dataInicio, dataFim, opcoes)) {
+        return;
     }
 
     const enquete = JSON.stringify({
@@ -214,7 +214,21 @@ function getOpcoesFromForm() {
     return opcoes;
 }
 
-function isFormInvalid(titulo, dataInicio, dataFim, opcoes) {
-    return !titulo || !dataInicio || !dataFim || !opcoes ||
-        dataFim <= dataInicio || opcoes.length < 3
+function validateForm(titulo, dataInicio, dataFim, opcoes) {
+    if (!titulo || !dataInicio || !dataFim || !opcoes ) {
+        alert("Preencha todos os campos");
+        return false;
+    }
+
+    if (dataFim <= dataInicio) {
+        alert("A data fim deve ser maior que a data de inicio");
+        return false;
+    }
+
+    if (opcoes.length < 3) {
+        alert("A enquete deve possuir no mínimo 3 opções");
+        return false;
+    }
+
+    return true;
 }
