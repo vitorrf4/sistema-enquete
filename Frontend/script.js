@@ -32,13 +32,16 @@ function createEnqueteElement(enquete) {
     const div = document.createElement('div');
     div.id = `div_enquete_${enquete.id}`;
 
-    const form = createFormTable(enquete);
     const formattedStatus = getFormattedStatus(enquete.status);
+    const formattedDateInicio = formatDate(enquete.dataInicio);
+    const formatedDateFim = formatDate(enquete.dataFim);
+
+    const form = createFormTable(enquete);
 
     form.insertAdjacentHTML('afterbegin', `<p class="bold">${enquete.titulo}</p>`);
     form.insertAdjacentHTML('beforeend', `
-            <p>Inicio: ${enquete.dataInicio}</p>
-            <p>Fim: ${enquete.dataFim}</p>
+            <p>Inicio: ${formattedDateInicio}</p>
+            <p>Fim: ${formatedDateFim}</p>
             <p id="status_enquete_${enquete.id}">Status: ${formattedStatus}</p>
     `);
 
@@ -49,6 +52,15 @@ function createEnqueteElement(enquete) {
     div.classList.add('enquetes-div', enquete.status.toLowerCase());
 
     container.appendChild(div);
+}
+
+function formatDate(date) {
+    const dateObject = new Date(date);
+
+    const dateString =  dateObject.toLocaleDateString();
+    const timeString =  dateObject.toLocaleTimeString().substring(0, 5);
+
+    return `${dateString} ${timeString}`;
 }
 
 function getFormattedStatus(status) {
@@ -141,14 +153,20 @@ async function addVoto(formId) {
     await fetch(`http://localhost:3000/opcoes/${opcaoId}`, {
         method: "POST"
     }).then(() => {
-        const button = document.getElementById(`votar_${formId}`);
-        button.disabled = true;
-        button.insertAdjacentHTML('afterend', ' Voto enviado!');
-
-        for (let opcao of enquete) {
-            opcao.disabled = true;
-        }
+        disableEnquete(formId);
     });
+}
+
+function disableEnquete(formId) {
+    const button = document.getElementById(`votar_${formId}`);
+    button.disabled = true;
+    button.insertAdjacentHTML('afterend', ' Voto enviado!');
+
+    const enquete = document.getElementById(formId);
+    for (let opcao of enquete) {
+        opcao.disabled = true;
+    }
+
 }
 
 async function saveEnquete() {
