@@ -164,6 +164,11 @@ async function saveEnquete() {
         opcoes: opcoes
     });
 
+    if (!isFormValid(enquete)) {
+        alert("Enquete válida, preencha todos os campos com um mínimo 3 opções");
+        return;
+    }
+
     const res = await fetch("http://localhost:3000/enquetes", {
         method: "POST",
         body: enquete,
@@ -171,9 +176,7 @@ async function saveEnquete() {
             "Content-Type": "application/json"
         },
     });
-    const json = await res.json();
-
-    console.log(json);
+    await res.json();
 }
 
 function getOpcoesFromForm() {
@@ -188,4 +191,9 @@ function getOpcoesFromForm() {
     opcoes.reverse();
 
     return opcoes;
+}
+
+function isFormValid(enquete) {
+    return enquete.titulo || enquete.dataInicio || enquete.dataFim || enquete.opcoes
+            || enquete.dataFim > enquete.dataInicio || enquete.opcoes >= 3
 }
