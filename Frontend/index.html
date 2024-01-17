@@ -7,34 +7,37 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body onload="loadEnquetes()">
-    <h1>Enquetes</h1>
+    <h1>Sistema de Enquetes</h1>
 
-    <div id="form_div">
+    <div id="form_container">
         <form onsubmit="saveEnquete();return false">
-            <div id="enquete-form">
-                <label for="titulo">Titulo</label>
-                <input type="text" id="titulo" value="teste">
-                <br>
-                <label for="dataInicio">Data Inicio</label>
-                <input type="datetime-local" id="dataInicio" value="12/01/2024">
-                <br>
-                <label for="dataFim">Data Fim</label>
-                <input type="datetime-local" id="dataFim" value="12-01-2024T03.01:01:2020">
-                <br>
-            </div>
-            <div id="opcoes_div">
-                <label>Opções</label>
-                <div>
-                    <input type="text" value="teste" class="block opcoes_form">
-                    <input type="text" value="teste2" class="block opcoes_form">
-                    <input type="text" value="teste3" class="block opcoes_form">
-                    <input type="text" value="teste" class="block opcoes_form">
-                    <input type="text" value="teste" class="block opcoes_form">
+            <div id="form_div">
+                <section id="enquete_section">
+                    <label for="titulo" class="block bold">Titulo</label>
+                    <input type="text" id="titulo" placeholder="Insira um titulo">
+                    <br>
+                    <label for="dataInicio" class="block bold">Data Inicio</label>
+                    <input type="datetime-local" id="dataInicio">
+                    <br>
+                    <label for="dataFim" class="block bold">Data Fim</label>
+                    <input type="datetime-local" id="dataFim">
+                    <br>
+                </section>
+                <section id="opcoes_section">
+                    <label class="bold">Opções</label>
+                    <div id="opcoes_input_div">
+                        <input type="text" placeholder="Opção 1" class="block opcoes_form">
+                        <input type="text" placeholder="Opção 2" class="block opcoes_form">
+                        <input type="text" placeholder="Opção 3" class="block opcoes_form">
+                        <input type="text" placeholder="Opção 4" class="block opcoes_form">
+                        <input type="text" placeholder="Opção 5" class="block opcoes_form">
+                    </div>
+                </section>
+
+                <div id="save_button_div">
+                    <button id="save_enquete">Salvar</button>
                 </div>
-
             </div>
-
-            <button>Salvar</button>
         </form>
     </div>
     <hr>

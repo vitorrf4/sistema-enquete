@@ -2,11 +2,19 @@ body {
     font-family: "Calibri", serif;
     font-size: 20px;
 }
+h1 {
+    font-size: 50px;
+    display: flex;
+    justify-content: center;
+}
+h3 {
+    display: flex;
+    justify-content: center;
+}
 #enquetes_list_container {
     display: inline-flex;
     flex-wrap: wrap;
-    margin-left: 3%;
-    margin-right: 3%;
+    justify-content: center;
 }
 .enquetes-div {
     border: solid 2px rgba(147, 147, 147, 0.87);
@@ -15,18 +23,37 @@ body {
     margin: 5px;
     padding: 10px;
 }
-#form_div {
+#form_container {
     display: flex;
+    justify-content: center;
+    margin-bottom: 1%;
+    font-size: 35px;
+    vertical-align: top;
+}
+#enquete_section {
+    display: inline-block;
+    align-items: center;
+    vertical-align: top;
+}
+#opcoes_section {
+    display: inline-block;
+    align-content: start;
+    align-self: start;
+    vertical-align: top;
+}
+#form_div {
     border: solid 2px red;
+    padding: 20px;
 }
-#enquete-form {
-    display: inline-block;
+#save_button_div {
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
 }
-#opcoes_div {
-    display: inline-block;
-}
-.block {
-    display: block;
+#opcoes_input_div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .finalizada {
     border: solid 2px red;
@@ -37,6 +64,12 @@ body {
 .nao_iniciada {
     border: solid 2px blue;
 }
+.block {
+    display: block;
+}
 .bold {
     font-weight: bold;
+}
+.small_p {
+    font-size: 15px;
 }
