@@ -136,11 +136,12 @@ function updateStatusElement(enquete) {
     div.classList.add('enquetes-div', enquete.status.toLowerCase());
 
     const botaoVotar = document.getElementById(`votar_enquete_${enquete.id}`);
-    botaoVotar.disabled = false;
+    const shouldBeDisabled = enquete.status !== "EM_ANDAMENTO";
+    botaoVotar.disabled = shouldBeDisabled;
 
     const form = document.getElementById(`enquete_${enquete.id}`);
     for (let opcao of form) {
-        opcao.disabled = true;
+        opcao.disabled = shouldBeDisabled;
     }
 }
 
