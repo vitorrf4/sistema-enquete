@@ -7,9 +7,9 @@ class Enquete extends Model {
         const dateInicio = new Date(dataInicio);
         const dateFim = new Date(dataFim);
 
-        if (Date.now() < dateInicio) {
+        if (new Date(Date.now()) < dateInicio) {
             return "NAO_INICIADA";
-        } else if (Date.now() < dateFim) {
+        } else if (new Date(Date.now()) < dateFim) {
             return "EM_ANDAMENTO";
         } else {
             return "FINALIZADA";
