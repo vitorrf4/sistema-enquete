@@ -214,7 +214,6 @@ function getOpcoesFromForm() {
             opcoes.push({titulo: opcao.value});
         }
     }
-    opcoes.reverse();
 
     return opcoes;
 }
@@ -227,6 +226,13 @@ function validateForm(titulo, dataInicio, dataFim, opcoes) {
 
     if (dataFim <= dataInicio) {
         alert("A data fim deve ser maior que a data de inicio");
+        return false;
+    }
+
+    const dateFim = new Date(dataFim);
+
+    if (dateFim < new Date(Date.now())) {
+        alert("A data de fim não pode ser menor que a data atual");
         return false;
     }
 

@@ -14,11 +14,9 @@ class EnqueteService {
     const dateInicio = new Date(dataInicio).getTime();
     const dateFim = new Date(dataFim).getTime();
 
-    if (dateFim <= dateInicio) {
-      return null;
-    }
-
-    if (!opcoes || opcoes.length < 3 || opcoes.length > 5) {
+    if (!titulo || !dataInicio || !dataFim || ! opcoes ||
+        dateFim <= dateInicio || dateFim < new Date(Date.now()) ||
+        opcoes.length < 3 || opcoes.length > 5) {
       return null;
     }
 
