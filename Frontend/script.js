@@ -155,6 +155,11 @@ async function addVoto(formId) {
         }
     }
 
+    if (!opcaoId) {
+        alert("Nenhuma opção selecionada");
+        return;
+    }
+
     await fetch(`http://localhost:3000/opcoes/${opcaoId}`, {
         method: "POST"
     }).then(() => {
